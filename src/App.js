@@ -8,6 +8,8 @@ import { auth, db } from './utils/firebase';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import firebase from 'firebase';
 import Home from './components/Home';
+import Graphs from './components/Graphs';
+
 
 function App() {
   const [user] = useAuthState(auth);
@@ -32,6 +34,7 @@ function App() {
             <Login />
           ) : (
             <Switch>
+               
               <Route path='/home'>
                 <Home />
               </Route>

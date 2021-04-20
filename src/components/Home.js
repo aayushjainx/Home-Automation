@@ -1,5 +1,6 @@
 import Banner from './Banner';
 import ControlPanel from './ControlPanel';
+import Graphs from './Graphs';
 import Header from './Header';
 
 function Home() {
@@ -8,6 +9,8 @@ function Home() {
       <Header />
       <Banner />
       <ControlPanel />
+
+      <Graphs />
     </div>
   );
 }

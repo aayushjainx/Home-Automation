@@ -1,0 +1,9 @@
+.reading__danger{
+    display: flex;
+    color:red;
+}
+
+p{
+    font-size: large;
+    font-style:normal;
+}

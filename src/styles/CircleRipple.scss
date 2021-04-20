@@ -1,0 +1,21 @@
+// Variables
+$color: red;
+
+.circle-ripple {
+  background-color: #35ffc3;
+  width: 1em;
+  height: 1em;
+  border-radius: 50%;
+  animation: ripple 0.7s linear infinite;
+}
+
+@keyframes ripple {
+  0% {
+    box-shadow: 0 0 0 0 rgba($color, 0.3), 0 0 0 1em rgba($color, 0.3), 0 0 0 2em rgba($color, 0.3);
+    //0 0 0 3em rgba($color, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 1em rgba($color, 0.3), 0 0 0 2em rgba($color, 0.3), 0 0 0 3em rgba($color, 0);
+    //0 0 0 4em rgba($color, 0);
+  }
+}

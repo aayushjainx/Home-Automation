@@ -1,0 +1,9 @@
+.reading__detetcted{
+    display: flex;
+    color: gray;
+}
+
+p{
+    font-size: large;
+    font-style:normal;
+}
