@@ -25,10 +25,7 @@ function Temperature() {
   useEffect(() => {
     const temp = async () => {
       try {
-        const res = await thingSpeakAPI({
-          method: 'get',
-          url: ThingSpeakReadAPI(1),
-        });
+        const res = await thingSpeakAPI(ThingSpeakReadAPI(1));
         console.log(res.data, 'temperature');
         setState(res?.data);
       } catch (err) {
@@ -50,7 +47,11 @@ function Temperature() {
       Your Room Temperature:{' '}
       <Box fontSize={25} fontWeight={900} m={1}>
         {state}° C | {toFahrenheit(state)}° F{' '}
-        {state > 20 ? <WhatshotIcon className={classes.heat} /> : <AcUnitIcon className={classes.cold} />}
+        {state > 20 ? (
+          <WhatshotIcon className={classes.heat} />
+        ) : (
+          <AcUnitIcon className={classes.cold} />
+        )}
       </Box>
     </Typography>
   );

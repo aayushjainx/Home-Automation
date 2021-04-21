@@ -9,10 +9,7 @@ function Buzzer() {
   useEffect(() => {
     const buzz = async () => {
       try {
-        const res = await thingSpeakAPI({
-          method: 'get',
-          url: ThingSpeakReadAPI(7),
-        });
+        const res = await thingSpeakAPI.get(ThingSpeakReadAPI(7));
         console.log(res.data, 'Buzzer');
         setBuzzer(res?.data === 1 ? true : false);
       } catch (err) {
@@ -31,7 +28,14 @@ function Buzzer() {
         <>
           <Grid item xs={12} style={{ marginBottom: '3%' }}>
             <Grid container>
-              <Grid container item xs={2} md={5} direction='row' justify='flex-end' alignItems='center'>
+              <Grid
+                container
+                item
+                xs={2}
+                md={5}
+                direction='row'
+                justify='flex-end'
+                alignItems='center'>
                 <Box className={`${buzzer && 'circle-ripple'}`}></Box>
               </Grid>
               <Grid item xs={8} md={6} style={{ marginLeft: '3%' }}>

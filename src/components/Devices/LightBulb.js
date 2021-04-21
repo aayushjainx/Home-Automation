@@ -10,10 +10,7 @@ function LightBulb() {
   useEffect(() => {
     const onOff = async () => {
       try {
-        const res = await thingSpeakAPI({
-          method: 'get',
-          url: ThingSpeakReadAPI(3),
-        });
+        const res = await thingSpeakAPI.get(ThingSpeakReadAPI(3));
         console.log(res.data, 'lightbulb');
         setState(res?.data === 1 ? true : false);
       } catch (err) {
@@ -30,10 +27,7 @@ function LightBulb() {
     var data = e.target.checked === false ? 0 : 1;
     try {
       setState(e.target.checked);
-      await thingSpeakAPI({
-        method: 'post',
-        url: ThingSpeakWriteAPI(`field3=${data}`),
-      });
+      await thingSpeakAPI.post(ThingSpeakWriteAPI(`field3=${data}`));
       console.log(e.target.checked, 'status');
     } catch (err) {
       setState(!e.target.checked);
@@ -43,7 +37,9 @@ function LightBulb() {
 
   return (
     <FormControlLabel
-      control={<IOSSwitch name='lightbulb' id='3' checked={state} onChange={(e) => handleChange(e)} />}
+      control={
+        <IOSSwitch name='lightbulb' id='3' checked={state} onChange={(e) => handleChange(e)} />
+      }
       label='Light Bulb'
     />
   );

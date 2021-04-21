@@ -10,10 +10,7 @@ function IntruderAlert() {
   useEffect(() => {
     const onOff = async () => {
       try {
-        const res = await thingSpeakAPI({
-          method: 'get',
-          url: ThingSpeakReadAPI(6),
-        });
+        const res = await thingSpeakAPI.get(ThingSpeakReadAPI(6));
         console.log(res.data, 'IntruderAlert');
         setState(res?.data === 1 ? true : false);
       } catch (err) {
@@ -30,10 +27,7 @@ function IntruderAlert() {
     var data = e.target.checked === false ? 0 : 1;
     try {
       setState(e.target.checked);
-      await thingSpeakAPI({
-        method: 'post',
-        url: ThingSpeakWriteAPI(`field6=${data}`),
-      });
+      await thingSpeakAPI.post(ThingSpeakWriteAPI(`field6=${data}`));
       console.log(e.target.checked, 'status');
     } catch (err) {
       setState(!e.target.checked);
@@ -44,7 +38,14 @@ function IntruderAlert() {
   return (
     <>
       <FormControlLabel
-        control={<IOSSwitch name='intruderalert' id='6' checked={state} onChange={(e) => handleChange(e)} />}
+        control={
+          <IOSSwitch
+            name='intruderalert'
+            id='6'
+            checked={state}
+            onChange={(e) => handleChange(e)}
+          />
+        }
         label='Intruder Alert'
       />
     </>

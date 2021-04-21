@@ -4,6 +4,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Button, Typography } from '@material-ui/core';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { auth } from '../utils/firebase';
+import { useDispatch, useSelector } from 'react-redux';
+import { login, logout, selectUser } from '../features/userSlice';
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -28,6 +30,7 @@ const useStyles = makeStyles((theme) => ({
 function Header() {
   const classes = useStyles();
   const [show, handleShow] = useState(false);
+  const dispatch = useDispatch();
 
   const transitionNavBar = () => {
     if (window.scrollY > 100) {
@@ -41,6 +44,11 @@ function Header() {
     window.addEventListener('scroll', transitionNavBar);
     return () => window.removeEventListener('scroll', transitionNavBar);
   }, []);
+
+  const signOut = () => {
+    dispatch(logout());
+    localStorage.removeItem('jwtToken');
+  };
 
   return (
     <>
@@ -56,7 +64,7 @@ function Header() {
               Hey Name
             </Typography>
             <Button
-              onClick={() => auth.signOut()}
+              onClick={signOut}
               startIcon={<ExitToAppIcon />}
               className={classes.logout}
               color='primary'
