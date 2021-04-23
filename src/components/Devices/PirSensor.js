@@ -38,8 +38,8 @@ function PirSensor() {
     <Typography variant='body1' style={{ marginTop: 5 }}>
       Pir Sensor Value:{' '}
       <Box fontSize={25} fontWeight={900} m={1}>
-        {state == 1 ? <h2>Active</h2> : <h2>Inactive</h2>} {''}
-        {state == 1 ? (
+        {state === 1 ? <h2>Active</h2> : <h2>Inactive</h2>} {''}
+        {state === 1 ? (
           <div className='reading__detetcted'>
             <NotificationsIcon className={classes.person} />
             <p>(Someone is there) </p>

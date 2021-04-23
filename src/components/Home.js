@@ -9,7 +9,6 @@ function Home() {
       <Header />
       <Banner />
       <ControlPanel />
-
       <Graphs />
     </div>
   );

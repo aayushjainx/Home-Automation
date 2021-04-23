@@ -1,55 +1,34 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { auth, provider } from '../utils/firebase';
 import '../styles/SignUp.css';
 import { Button } from '@material-ui/core';
 import nodeAPI from '../utils/axios2';
-import jwt_decode from 'jwt-decode';
-import { useDispatch } from 'react-redux';
-import { login } from '../features/userSlice';
+import SignIn from './SignIn';
 
 function SignUp() {
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
-  const dispatch = useDispatch();
+  const firstRef = useRef(null);
+  const lastRef = useRef(null);
+  const [signInS, setSignInS] = useState(false);
 
-  const signUp = () => {
+  const signUpG = () => {
     auth.signInWithPopup(provider).catch(alert);
   };
 
-  const register = (e) => {
-    e.preventDefault();
-
-    auth
-      .createUserWithEmailAndPassword(emailRef.current.value, passwordRef.current.value)
-      .then((authUser) => {
-        console.log(authUser);
-      })
-      .catch((error) => {
-        alert(error.message);
-      });
-  };
-
-  const signIn = (e) => {
+  const signUp = (e) => {
     const signin = async () => {
       var data = {
+        firstname: firstRef.current.value,
+        lastname: lastRef.current.value,
         username: emailRef.current.value,
         password: passwordRef.current.value,
       };
       console.log(data, 'aayush--dataa');
       try {
-        const res = await nodeAPI.post('users/login', data);
-        console.log(res.data.token, 'aayush--token');
-        var token = res.data.token;
-        localStorage.setItem('jwtToken', token);
-        const decoded = jwt_decode(token);
-        localStorage.setItem('creds', decoded._id);
-        console.log(decoded, 'aayush--decode');
-        dispatch(
-          login({
-            token: token,
-            uid: decoded._id,
-          })
-        );
+        const res = await nodeAPI.post('users/signup', data);
+        console.log(res.data, 'signup');
+        setSignInS(true);
       } catch (err) {
         console.log(err);
       }
@@ -58,25 +37,31 @@ function SignUp() {
   };
 
   return (
-    <div className='signup'>
-      <form>
-        <h1>Sign In </h1>
-        <input ref={emailRef} placeholder='Email' type='email' />
-        <input ref={passwordRef} placeholder='Password' type='password' />
-        <div> </div>
-        <Button onClick={signIn}>Sign In</Button>
-        <h4>
-          <span className='signup__user'>New User? </span>
+    <>
+      {signInS ? (
+        <SignIn />
+      ) : (
+        <div className='signup'>
+          <form>
+            <h1>Sign Up </h1>
+            <input ref={firstRef} placeholder='First Name' type='text' />
+            <input ref={lastRef} placeholder='Last Name' type='text' />
+            <input ref={emailRef} placeholder='Email / Username' type='email' />
+            <input ref={passwordRef} placeholder='Password' type='password' />
+            <div> </div>
+            <Button onClick={signUp}>Sign Up</Button>
+            <h4>
+              <span className='signup__user'>Have an Account? </span>
 
-          <span className='signup__link' onClick={register}>
-            Sign Up now.
-          </span>
-        </h4>
-        <Button variant='contained' color='secondary' onClick={signUp}>
-          Sign In with Google
-        </Button>
-      </form>
-    </div>
+              <span className='signup__link' onClick={() => setSignInS(true)}>
+                Sign In.
+              </span>
+            </h4>
+            <Button onClick={signUpG}>Sign In with Google</Button>
+          </form>
+        </div>
+      )}
+    </>
   );
 }
 

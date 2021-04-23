@@ -4,9 +4,8 @@ import './App.css';
 import Login from './components/Login';
 import ThemeProvider from './styles/ThemeProvider';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { auth, db } from './utils/firebase';
+import { auth } from './utils/firebase';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
-import firebase from 'firebase';
 import Home from './components/Home';
 import { useDispatch, useSelector } from 'react-redux';
 import { login, logout, selectUser } from './features/userSlice';
@@ -14,21 +13,21 @@ import jwt_decode from 'jwt-decode';
 import PrivateRoute from './utils/PrivateRoute';
 
 function App() {
-  /* const [user] = useAuthState(auth);
-
-  useEffect(() => {
-    if (user) {
-      db.collection('users').doc(user.uid).set(
-        {
-          email: user.email,
-          lastSeen: firebase.firestore.FieldValue.serverTimestamp(),
-        },
-        { merge: true }
-      );
-    }
-  }, [user]); */
+  const [userG] = useAuthState(auth);
   const dispatch = useDispatch();
   var user = useSelector(selectUser);
+
+  useEffect(() => {
+    if (userG) {
+      dispatch(
+        login({
+          token: userG.uid,
+          uid: userG.displayName,
+          type: 'firebase',
+        })
+      );
+    }
+  }, [dispatch, userG]);
 
   useEffect(() => {
     if (localStorage.getItem('jwtToken')) {
@@ -43,6 +42,7 @@ function App() {
           login({
             token: token,
             uid: decoded._id,
+            type: 'node',
           })
         );
       }

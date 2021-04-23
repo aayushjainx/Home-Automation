@@ -1,14 +1,13 @@
 import React from 'react';
 import '../styles/Login.css';
-import SignUp from './SignUp';
+import SignIn from './SignIn';
 
 function Login() {
   return (
-    <div className='login'> 
-        <div className="login__gradient"/>
-          <SignUp />
+    <div className='login'>
+      <div className='login__gradient' />
+      <SignIn />
     </div>
-
   );
 }
 

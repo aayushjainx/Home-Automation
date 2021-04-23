@@ -5,7 +5,7 @@ import { Button, Typography } from '@material-ui/core';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { auth } from '../utils/firebase';
 import { useDispatch, useSelector } from 'react-redux';
-import { login, logout, selectUser } from '../features/userSlice';
+import { logout, selectUser } from '../features/userSlice';
 import nodeAPI from '../utils/axios2';
 
 const useStyles = makeStyles((theme) => ({
@@ -33,15 +33,17 @@ function Header() {
   const [show, handleShow] = useState(false);
   const dispatch = useDispatch();
   const [name, setname] = useState('User');
+  var user = useSelector(selectUser);
 
   useEffect(() => {
     const getName = async () => {
       const res = await nodeAPI.get('users/checkJWTtoken');
       console.log(res.data, 'checkjwt');
-      setname(res.data.user.firstname);
+      setname(res.data?.user?.firstname);
     };
-    getName();
-  }, []);
+    if (user.type === 'node') getName();
+    else setname(user.uid);
+  }, [user]);
 
   const transitionNavBar = () => {
     if (window.scrollY > 100) {
@@ -57,6 +59,7 @@ function Header() {
   }, []);
 
   const signOut = () => {
+    auth.signOut();
     dispatch(logout());
     localStorage.removeItem('jwtToken');
   };
