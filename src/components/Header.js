@@ -6,6 +6,7 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { auth } from '../utils/firebase';
 import { useDispatch, useSelector } from 'react-redux';
 import { login, logout, selectUser } from '../features/userSlice';
+import nodeAPI from '../utils/axios2';
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -31,6 +32,16 @@ function Header() {
   const classes = useStyles();
   const [show, handleShow] = useState(false);
   const dispatch = useDispatch();
+  const [name, setname] = useState('User');
+
+  useEffect(() => {
+    const getName = async () => {
+      const res = await nodeAPI.get('users/checkJWTtoken');
+      console.log(res.data, 'checkjwt');
+      setname(res.data.user.firstname);
+    };
+    getName();
+  }, []);
 
   const transitionNavBar = () => {
     if (window.scrollY > 100) {
@@ -61,7 +72,7 @@ function Header() {
           </div>
           <div className='header__contentRight'>
             <Typography variant='h6' color='secondary' className={classes.name}>
-              Hey Name
+              Hey {name}
             </Typography>
             <Button
               onClick={signOut}

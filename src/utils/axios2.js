@@ -7,6 +7,7 @@ const nodeAPI = axios.create({
 
 nodeAPI.interceptors.request.use((config) => {
   config.headers.post['Content-Type'] = 'application/json';
+  config.headers.common['Authorization'] = `bearer ${localStorage.jwtToken}`;
   return config;
 });
 

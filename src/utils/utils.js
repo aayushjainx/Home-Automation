@@ -1,5 +1,5 @@
 export const THINGSPEAK = 'https://api.thingspeak.com/';
-export const NODEAPI = 'http://localhost:3000/';
+export const NODEAPI = 'http://localhost:8000/';
 
 export const ThingSpeakWriteAPI = (field) => `update?api_key=FW8F6DEGWF2P9CEG&${field}`;
 
