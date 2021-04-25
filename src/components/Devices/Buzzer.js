@@ -9,10 +9,7 @@ function Buzzer() {
 	useEffect(() => {
 		const buzz = async () => {
 			try {
-				const res = await thingSpeakAPI({
-					method: 'get',
-					url: ThingSpeakReadAPI(7),
-				});
+				const res = await thingSpeakAPI.get(ThingSpeakReadAPI(7));
 				console.log(res.data, 'Buzzer');
 				setBuzzer(res?.data === 1 ? true : false);
 			} catch (err) {

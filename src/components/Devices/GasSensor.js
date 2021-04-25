@@ -19,10 +19,7 @@ function Gassensor() {
 	useEffect(() => {
 		const Gas = async () => {
 			try {
-				const res = await thingSpeakAPI({
-					method: 'get',
-					url: ThingSpeakReadAPI(8),
-				});
+				const res = await thingSpeakAPI.get(ThingSpeakReadAPI(8));
 				console.log(res.data, 'Gas Sensor');
 				setState(res?.data);
 			} catch (err) {

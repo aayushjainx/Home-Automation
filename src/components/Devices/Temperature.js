@@ -25,10 +25,7 @@ function Temperature() {
 	useEffect(() => {
 		const temp = async () => {
 			try {
-				const res = await thingSpeakAPI({
-					method: 'get',
-					url: ThingSpeakReadAPI(1),
-				});
+				const res = await thingSpeakAPI(ThingSpeakReadAPI(1));
 				console.log(res.data, 'temperature');
 				setState(res?.data);
 			} catch (err) {

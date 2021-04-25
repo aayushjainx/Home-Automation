@@ -3,19 +3,20 @@ import React, { useEffect, useState } from 'react';
 import { ThingSpeakReadAPI, ThingSpeakWriteAPI } from '../../utils/utils';
 import thingSpeakAPI from '../../utils/axios';
 import IOSSwitch from '../IOSSwitch';
+import { useDispatch, useSelector } from 'react-redux';
+import { on, off, selectIntruder } from '../../features/intruderSlice';
 
 function IntruderAlert() {
-	const [state, setState] = useState(false);
+	//const [state, setState] = useState(false);
+	const dispatch = useDispatch();
+	var intruder = useSelector(selectIntruder);
 
 	useEffect(() => {
 		const onOff = async () => {
 			try {
-				const res = await thingSpeakAPI({
-					method: 'get',
-					url: ThingSpeakReadAPI(6),
-				});
+				const res = await thingSpeakAPI.get(ThingSpeakReadAPI(6));
 				console.log(res.data, 'IntruderAlert');
-				setState(res?.data === 1 ? true : false);
+				if (res?.data === 1) dispatch(on());
 			} catch (err) {
 				console.log(err);
 			}
@@ -29,14 +30,13 @@ function IntruderAlert() {
 	const handleChange = async (e) => {
 		var data = e.target.checked === false ? 0 : 1;
 		try {
-			setState(e.target.checked);
-			await thingSpeakAPI({
-				method: 'post',
-				url: ThingSpeakWriteAPI(`field6=${data}`),
-			});
+			//setState(e.target.checked);
+			if (data === 0 ? dispatch(off()) : dispatch(on()));
+			await thingSpeakAPI.post(ThingSpeakWriteAPI(`field6=${data}`));
 			console.log(e.target.checked, 'status');
 		} catch (err) {
-			setState(!e.target.checked);
+			//setState(!e.target.checked);
+			if (data === 1 ? dispatch(off()) : dispatch(on()));
 			console.log(err);
 		}
 	};
@@ -49,7 +49,7 @@ function IntruderAlert() {
 					<IOSSwitch
 						name='intruderalert'
 						id='6'
-						checked={state}
+						checked={intruder}
 						onChange={(e) => handleChange(e)}
 					/>
 				}

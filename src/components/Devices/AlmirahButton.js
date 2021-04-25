@@ -3,37 +3,34 @@ import React, { useEffect, useState } from 'react';
 import { ThingSpeakReadAPI, ThingSpeakWriteAPI } from '../../utils/utils';
 import thingSpeakAPI from '../../utils/axios';
 import IOSSwitch from '../IOSSwitch';
+import { useSelector } from 'react-redux';
+import { selectIntruder } from '../../features/intruderSlice';
 
 function AlmirahButton() {
 	const [state, setState] = useState(false);
+	var intruder = useSelector(selectIntruder);
 
 	useEffect(() => {
 		const onOff = async () => {
 			try {
-				const res = await thingSpeakAPI({
-					method: 'get',
-					url: ThingSpeakReadAPI(2), //change
-				});
-				console.log(res.data, 'almirah');
+				const res = await thingSpeakAPI.get(ThingSpeakReadAPI(5));
+				console.log(res.data, 'Almirah');
 				setState(res?.data === 1 ? true : false);
 			} catch (err) {
 				console.log(err);
 			}
 		};
-		const interval = setInterval(async () => {
-			onOff();
-		}, 10000);
-		return () => clearInterval(interval);
+		//const interval = setInterval(async () => {
+		onOff();
+		// }, 10000);
+		// return () => clearInterval(interval);
 	}, []);
 
 	const handleChange = async (e) => {
 		var data = e.target.checked === false ? 0 : 1;
 		try {
 			setState(e.target.checked);
-			await thingSpeakAPI({
-				method: 'post',
-				url: ThingSpeakWriteAPI(`field2=${data}`), //change
-			});
+			await thingSpeakAPI.post(ThingSpeakWriteAPI(`field5=${data}`));
 			console.log(e.target.checked, 'status');
 		} catch (err) {
 			setState(!e.target.checked);
@@ -45,10 +42,11 @@ function AlmirahButton() {
 		<FormControlLabel
 			control={
 				<IOSSwitch
-					name='almirah'
-					id='4' //change
+					name='Almirah'
+					id='5'
 					checked={state}
 					onChange={(e) => handleChange(e)}
+					disabled={intruder}
 				/>
 			}
 			label={<Typography variant='h6'>Almirah</Typography>}
