@@ -11,19 +11,20 @@ function Graphs() {
           <Graphitem title='Temperature' link={GraphsRead(1)} />
         </Grid>
         <Grid item xs={12} md={4}>
-          <Graphitem title='Ultrasonic' link={GraphsRead(2)} />
+          <Graphitem title='Servo-motor' link={GraphsRead(2)} />
         </Grid>
         <Grid item xs={12} md={4}>
           <Graphitem title='Light-Button' link={GraphsRead(3)} />
         </Grid>
-        <Grid item xs={12} md={4}>
-          <Graphitem title='Photo-Resistor' link={GraphsRead(4)} />
-        </Grid>
-        <Grid item xs={12} md={4}>
-          <Graphitem title='Pir-Sensor' link={GraphsRead(5)} />
-        </Grid>
+        
         <Grid item xs={12} md={4}>
           <Graphitem title='Intruder-Button' link={GraphsRead(6)} />
+        </Grid>
+        <Grid item xs={12} md={4}>
+          <Graphitem title='Almirah-Button' link={GraphsRead(5)} />
+        </Grid>
+        <Grid item xs={12} md={4}>
+          <Graphitem title='Fan-Button' link={GraphsRead(4)} />
         </Grid>
         <Grid item xs={12} md={4}>
           <Graphitem title='Buzzer' link={GraphsRead(7)} />

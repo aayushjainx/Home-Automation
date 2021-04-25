@@ -7,6 +7,8 @@ import '../styles/CircleRipple.scss';
 import Buzzer from './Devices/Buzzer';
 import Gassensor from './Devices/GasSensor';
 import PirSensor from './Devices/PirSensor';
+import AlmirahButton from './Devices/AlmirahButton';
+import FanButon from './Devices/FanButon';
 
 const useStyles = makeStyles((theme) => ({
   align: {
@@ -35,9 +37,10 @@ function ControlPanel() {
             <Grid item xs={12} md={4} className={classes.align}>
               <LightBulb />
             </Grid>
-            <Grid item xs={12} md={4} className={classes.align}>
-              <Temperature />
+             <Grid item xs={12} md={4} className={classes.align}>
+              <div></div>
             </Grid>
+            
             <Grid item xs={12} md={4} className={classes.align}>
               <IntruderAlert />
             </Grid>
@@ -45,7 +48,20 @@ function ControlPanel() {
               <Gassensor />
             </Grid>
             <Grid item xs={12} md={4} className={classes.align}>
+              <Temperature />
+            </Grid>
+            <Grid item xs={12} md={4} className={classes.align}>
               <PirSensor />
+            </Grid>
+             
+            <Grid item xs={12} md={4} className={classes.align}>
+              <AlmirahButton />
+            </Grid>
+             <Grid item xs={12} md={4} className={classes.align}>
+              <div></div>
+            </Grid>
+            <Grid item xs={12} md={4} className={classes.align}>
+              <FanButon />
             </Grid>
           </Grid>
         </Grid>
