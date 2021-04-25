@@ -4,7 +4,7 @@ import { ThingSpeakReadAPI, ThingSpeakWriteAPI } from '../../utils/utils';
 import thingSpeakAPI from '../../utils/axios';
 import IOSSwitch from '../IOSSwitch';
 
-function LightBulb() {
+function AlmirahButton() {
 	const [state, setState] = useState(false);
 
 	useEffect(() => {
@@ -12,9 +12,9 @@ function LightBulb() {
 			try {
 				const res = await thingSpeakAPI({
 					method: 'get',
-					url: ThingSpeakReadAPI(3),
+					url: ThingSpeakReadAPI(2), //change
 				});
-				console.log(res.data, 'lightbulb');
+				console.log(res.data, 'almirah');
 				setState(res?.data === 1 ? true : false);
 			} catch (err) {
 				console.log(err);
@@ -32,7 +32,7 @@ function LightBulb() {
 			setState(e.target.checked);
 			await thingSpeakAPI({
 				method: 'post',
-				url: ThingSpeakWriteAPI(`field3=${data}`),
+				url: ThingSpeakWriteAPI(`field2=${data}`), //change
 			});
 			console.log(e.target.checked, 'status');
 		} catch (err) {
@@ -44,12 +44,16 @@ function LightBulb() {
 	return (
 		<FormControlLabel
 			control={
-				<IOSSwitch name='lightbulb' id='3' checked={state} onChange={(e) => handleChange(e)} />
+				<IOSSwitch
+					name='almirah'
+					id='4' //change
+					checked={state}
+					onChange={(e) => handleChange(e)}
+				/>
 			}
-			style={{ marginLeft: 8 }}
-			label={<Typography variant='h6'>Light Bulb</Typography>}
+			label={<Typography variant='h6'>Almirah</Typography>}
 		/>
 	);
 }
 
-export default LightBulb;
+export default AlmirahButton;

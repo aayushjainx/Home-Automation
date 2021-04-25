@@ -1,39 +1,70 @@
-import { Grid } from '@material-ui/core';
 import React from 'react';
-import { GraphsRead } from '../utils/utils';
+import { makeStyles } from '@material-ui/core/styles';
+import GridList from '@material-ui/core/GridList';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
 import Graphitem from './Graphitem';
+import { Grid } from '@material-ui/core';
+import { GraphsRead } from '../utils/utils';
+
+const useStyles = makeStyles((theme) => ({
+	root: {
+		display: 'flex',
+		flexWrap: 'wrap',
+		justifyContent: 'space-around',
+		backgroundColor: theme.palette.background.paper,
+	},
+	gridList: {
+		width: 1000,
+		height: '92vh',
+	},
+	icon: {
+		color: 'rgba(255, 255, 255, 0.54)',
+	},
+	card: {
+		width: 1000,
+		height: '96vh',
+		backgroundColor: '#02353C',
+	},
+}));
 
 function Graphs() {
-  return (
-    <Grid style={{ marginLeft: '0px', marginRight: '0px', padding: '0px' }}>
-      <Grid container spacing={0}>
-        <Grid item xs={12} md={4}>
-          <Graphitem title='Temperature' link={GraphsRead(1)} />
-        </Grid>
-        <Grid item xs={12} md={4}>
-          <Graphitem title='Ultrasonic' link={GraphsRead(2)} />
-        </Grid>
-        <Grid item xs={12} md={4}>
-          <Graphitem title='Light-Button' link={GraphsRead(3)} />
-        </Grid>
-        <Grid item xs={12} md={4}>
-          <Graphitem title='Photo-Resistor' link={GraphsRead(4)} />
-        </Grid>
-        <Grid item xs={12} md={4}>
-          <Graphitem title='Pir-Sensor' link={GraphsRead(5)} />
-        </Grid>
-        <Grid item xs={12} md={4}>
-          <Graphitem title='Intruder-Button' link={GraphsRead(6)} />
-        </Grid>
-        <Grid item xs={12} md={4}>
-          <Graphitem title='Buzzer' link={GraphsRead(7)} />
-        </Grid>
-        <Grid item xs={12} md={4}>
-          <Graphitem title='Gas-Sensor' link={GraphsRead(8)} />
-        </Grid>
-      </Grid>
-    </Grid>
-  );
+	const classes = useStyles();
+
+	return (
+		<Card className={classes.card} variant='outlined'>
+			<CardContent>
+				<div className={classes.root}>
+					<GridList spacing={0} cellHeight={310} className={classes.gridList}>
+						<Grid item xs={12} md={6}>
+							<Graphitem title='Temperature' link={GraphsRead(1)} />
+						</Grid>
+						<Grid item xs={12} md={6}>
+							<Graphitem title='Almirah' link={GraphsRead(2)} />
+						</Grid>
+						<Grid item xs={12} md={6}>
+							<Graphitem title='Light-Button' link={GraphsRead(3)} />
+						</Grid>
+						<Grid item xs={12} md={6}>
+							<Graphitem title='Photo-Resistor' link={GraphsRead(4)} />
+						</Grid>
+						<Grid item xs={12} md={6}>
+							<Graphitem title='Pir-Sensor' link={GraphsRead(5)} />
+						</Grid>
+						<Grid item xs={12} md={6}>
+							<Graphitem title='Intruder-Button' link={GraphsRead(6)} />
+						</Grid>
+						<Grid item xs={12} md={6}>
+							<Graphitem title='Buzzer' link={GraphsRead(7)} />
+						</Grid>
+						<Grid item xs={12} md={6}>
+							<Graphitem title='Gas-Sensor' link={GraphsRead(8)} />
+						</Grid>
+					</GridList>
+				</div>
+			</CardContent>
+		</Card>
+	);
 }
 
 export default Graphs;

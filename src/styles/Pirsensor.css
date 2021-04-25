@@ -1,9 +1,9 @@
-.reading__detetcted{
-    display: flex;
-    color: gray;
+.reading__detetcted {
+	display: flex;
+	color: #f35656;
 }
 
-p{
-    font-size: large;
-    font-style:normal;
+p {
+	font-size: large;
+	font-style: normal;
 }

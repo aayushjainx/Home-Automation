@@ -4,7 +4,7 @@ import { ThingSpeakReadAPI, ThingSpeakWriteAPI } from '../../utils/utils';
 import thingSpeakAPI from '../../utils/axios';
 import IOSSwitch from '../IOSSwitch';
 
-function LightBulb() {
+function Fan() {
 	const [state, setState] = useState(false);
 
 	useEffect(() => {
@@ -12,9 +12,9 @@ function LightBulb() {
 			try {
 				const res = await thingSpeakAPI({
 					method: 'get',
-					url: ThingSpeakReadAPI(3),
+					url: ThingSpeakReadAPI(3), //change
 				});
-				console.log(res.data, 'lightbulb');
+				console.log(res.data, 'fan');
 				setState(res?.data === 1 ? true : false);
 			} catch (err) {
 				console.log(err);
@@ -32,7 +32,7 @@ function LightBulb() {
 			setState(e.target.checked);
 			await thingSpeakAPI({
 				method: 'post',
-				url: ThingSpeakWriteAPI(`field3=${data}`),
+				url: ThingSpeakWriteAPI(`field3=${data}`), //change
 			});
 			console.log(e.target.checked, 'status');
 		} catch (err) {
@@ -44,12 +44,17 @@ function LightBulb() {
 	return (
 		<FormControlLabel
 			control={
-				<IOSSwitch name='lightbulb' id='3' checked={state} onChange={(e) => handleChange(e)} />
+				<IOSSwitch
+					name='fan'
+					id='3' //change
+					checked={state}
+					onChange={(e) => handleChange(e)}
+				/>
 			}
-			style={{ marginLeft: 8 }}
-			label={<Typography variant='h6'>Light Bulb</Typography>}
+			style={{ marginLeft: -100 }}
+			label={<Typography variant='h6'>Fan</Typography>}
 		/>
 	);
 }
 
-export default LightBulb;
+export default Fan;
