@@ -5,15 +5,12 @@ import thingSpeakAPI from '../../utils/axios';
 import IOSSwitch from '../IOSSwitch';
 
 function AlmirahButton() {
-    const [state, setState] = useState(false);
+  const [state, setState] = useState(false);
 
   useEffect(() => {
     const onOff = async () => {
       try {
-        const res = await thingSpeakAPI({
-          method: 'get',
-          url: ThingSpeakReadAPI(5),
-        });
+        const res = await thingSpeakAPI.get(ThingSpeakReadAPI(5));
         console.log(res.data, 'Almirah');
         setState(res?.data === 1 ? true : false);
       } catch (err) {
@@ -30,10 +27,7 @@ function AlmirahButton() {
     var data = e.target.checked === false ? 0 : 1;
     try {
       setState(e.target.checked);
-      await thingSpeakAPI({
-        method: 'post',
-        url: ThingSpeakWriteAPI(`field5=${data}`),
-      });
+      await thingSpeakAPI.post(ThingSpeakWriteAPI(`field5=${data}`));
       console.log(e.target.checked, 'status');
     } catch (err) {
       setState(!e.target.checked);
@@ -43,10 +37,12 @@ function AlmirahButton() {
 
   return (
     <FormControlLabel
-      control={<IOSSwitch name='Almirah' id='5' checked={state} onChange={(e) => handleChange(e)} />}
+      control={
+        <IOSSwitch name='Almirah' id='5' checked={state} onChange={(e) => handleChange(e)} />
+      }
       label='Almirah '
     />
   );
 }
 
-export default AlmirahButton
+export default AlmirahButton;

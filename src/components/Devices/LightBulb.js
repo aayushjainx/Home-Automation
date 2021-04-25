@@ -3,9 +3,12 @@ import React, { useEffect, useState } from 'react';
 import { ThingSpeakReadAPI, ThingSpeakWriteAPI } from '../../utils/utils';
 import thingSpeakAPI from '../../utils/axios';
 import IOSSwitch from '../IOSSwitch';
+import { useSelector } from 'react-redux';
+import { selectIntruder } from '../../features/intruderSlice';
 
 function LightBulb() {
   const [state, setState] = useState(false);
+  var intruder = useSelector(selectIntruder);
 
   useEffect(() => {
     const onOff = async () => {
@@ -38,7 +41,13 @@ function LightBulb() {
   return (
     <FormControlLabel
       control={
-        <IOSSwitch name='lightbulb' id='3' checked={state} onChange={(e) => handleChange(e)} />
+        <IOSSwitch
+          name='lightbulb'
+          id='3'
+          checked={state}
+          onChange={(e) => handleChange(e)}
+          disabled={intruder}
+        />
       }
       label='Light Bulb'
     />

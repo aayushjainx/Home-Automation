@@ -37,10 +37,9 @@ function ControlPanel() {
             <Grid item xs={12} md={4} className={classes.align}>
               <LightBulb />
             </Grid>
-             <Grid item xs={12} md={4} className={classes.align}>
+            <Grid item xs={12} md={4} className={classes.align}>
               <div></div>
             </Grid>
-            
             <Grid item xs={12} md={4} className={classes.align}>
               <IntruderAlert />
             </Grid>
@@ -53,11 +52,11 @@ function ControlPanel() {
             <Grid item xs={12} md={4} className={classes.align}>
               <PirSensor />
             </Grid>
-             
+
             <Grid item xs={12} md={4} className={classes.align}>
               <AlmirahButton />
             </Grid>
-             <Grid item xs={12} md={4} className={classes.align}>
+            <Grid item xs={12} md={4} className={classes.align}>
               <div></div>
             </Grid>
             <Grid item xs={12} md={4} className={classes.align}>

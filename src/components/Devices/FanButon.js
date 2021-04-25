@@ -4,18 +4,13 @@ import { ThingSpeakReadAPI, ThingSpeakWriteAPI } from '../../utils/utils';
 import thingSpeakAPI from '../../utils/axios';
 import IOSSwitch from '../IOSSwitch';
 
-
-
 function FanButon() {
-    const [state, setState] = useState(false);
+  const [state, setState] = useState(false);
 
   useEffect(() => {
     const onOff = async () => {
       try {
-        const res = await thingSpeakAPI({
-          method: 'get',
-          url: ThingSpeakReadAPI(4),
-        });
+        const res = await thingSpeakAPI.get(ThingSpeakReadAPI(4));
         console.log(res.data, 'fan');
         setState(res?.data === 1 ? true : false);
       } catch (err) {
@@ -32,10 +27,7 @@ function FanButon() {
     var data = e.target.checked === false ? 0 : 1;
     try {
       setState(e.target.checked);
-      await thingSpeakAPI({
-        method: 'post',
-        url: ThingSpeakWriteAPI(`field4=${data}`),
-      });
+      await thingSpeakAPI(ThingSpeakWriteAPI(`field4=${data}`));
       console.log(e.target.checked, 'status');
     } catch (err) {
       setState(!e.target.checked);
@@ -51,4 +43,4 @@ function FanButon() {
   );
 }
 
-export default FanButon
+export default FanButon;
