@@ -1,0 +1,73 @@
+.signup{
+  max-width: 400px;
+  padding: 70px;
+  margin-left: auto;
+  margin-right: auto;
+  background: rgba(0, 0, 0, 0.85);
+  margin-top:-630px ;
+  
+}
+
+.signup > form {
+  display: flex;
+  flex-direction: column;
+
+}
+
+.signup > form > input {
+  outline-width: 0;
+  height: 40px;
+  margin-bottom: 14px;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 15px;
+}
+
+.signup > form > h1 {
+  text-align: left;
+  margin-bottom: 25px;
+  color: #fff;
+}
+
+.signup > form > h4 {
+  text-align: left;
+  margin-top: 30px;
+  color: #fff;
+}
+
+.signup__user {
+  color: gray;
+  font-size:large;
+}
+
+.signup > form > button {
+  
+  font-size: 1rem;
+  color: #fff;
+  border-radius: 5px;
+  background-color:  #0abb87;
+  width: 260px;
+  height:45px;
+  border: 1px solid;
+  border-color:#0abb87;
+  cursor: pointer;
+  margin-top: 20px;
+
+
+}
+
+.signup__link{
+  font-size: large;
+}
+
+
+.signup__link:hover {
+  cursor: pointer;
+  text-decoration: underline;
+  color:#0abb87;
+}
+
+.signUp__Google{
+  background-color:  #0abb87;
+
+}
