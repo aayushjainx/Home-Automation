@@ -38,7 +38,7 @@ function PirSensor() {
     <Typography variant='h6' style={{ marginTop: 5, marginLeft: 70 }}>
       <p>
         Pir Sensor Value:{' '}
-        {state == 1 ? (
+        {state === 1 ? (
           <b style={{ color: '#f35656' }}>Active</b>
         ) : (
           <b style={{ color: '#018c63' }}>Inactive</b>
@@ -46,7 +46,7 @@ function PirSensor() {
         {''}
       </p>
       <Box fontSize={25} fontWeight={900} m={1}>
-        {state == 1 ? (
+        {state === 1 ? (
           <div className='reading__detetcted'>
             <NotificationsIcon className={classes.person} color='#C62828' />
             <p>Intruder Detected </p>
