@@ -1,0 +1,293 @@
+String ssid     = "Simulator Wifi";  // SSID para conectar em um WiFi, neste caso, uma rede "Simulada"
+String password = ""; // Este WiFi não possuí senha
+
+#include <Servo.h>
+
+int gs = 0;
+
+int pir = 0;
+
+int us = 0;
+
+
+int prs = 0;
+
+int tp = 0;
+int buzzer =0 ;
+int motor=0;
+int LightButton=1;
+int IntruderButton=1;
+
+
+long readUltrasonicDistance(int triggerPin, int echoPin)
+{
+  pinMode(triggerPin, OUTPUT);  // Clear the trigger
+  digitalWrite(triggerPin, LOW);
+  delayMicroseconds(2);
+  // Sets the trigger pin to HIGH state for 10 microseconds
+  digitalWrite(triggerPin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(triggerPin, LOW);
+  pinMode(echoPin, INPUT);
+  // Reads the echo pin, and returns the sound wave travel time in microseconds
+  return pulseIn(echoPin, HIGH);
+}
+
+Servo servo_7;
+
+const int httpPort   = 80;
+
+String _apiHost        = "api.thingspeak.com";		//URL do Serviço de Nuvem (ThingSpeak)
+String _apiIdWrite  = "FW8F6DEGWF2P9CEG";		//Colar sua key de escrita - substituindo KEY_ESCRITA
+String _apiRequestUpdate  = "/update?api_key=";
+String _apiField1      = "&field1=";
+String _apiField2      = "&field2=";
+String _apiField3      = "&field3=";
+String _apiField4	   = "&field4=";
+String _apiField5	   = "&field5=";
+String _apiField6	   = "&field6=";
+String _apiField7	   = "&field7=";
+String _apiField8	   = "&field8=";
+
+
+String _apiPathReadChannel = "/channels/";
+String _apiChannelID   = "1336379";		// Colar seu channel ID - substituindo CHANNEL_ID
+String _apiReadFeed    = "/feeds/last.json?api_key=";	
+String _apiIdRead   = "RX065Q6TIP3VQZMK";		//Colar sua key de leitura - substituindo KEY_LEITURA
+String _apiReadEnd     = "";
+
+String uriWrite     = _apiRequestUpdate + _apiIdWrite + _apiField1; 
+String uriRead     = _apiPathReadChannel + _apiChannelID + _apiReadFeed + _apiIdRead + _apiReadEnd;
+
+const int GPIO_LED = 13;
+const int GPIO_SENSOR_TEMP = A2;
+
+int setupESP8266() {
+  Serial.begin(115200);   
+  Serial.println("AT");   
+  delay(10); 
+  
+  if (!Serial.find("OK")) 
+    return 1; 
+    
+  Serial.println("AT+CWJAP=\"" + ssid + "\",\"" + password + "\"");
+  delay(10);       
+  if (!Serial.find("OK")) 
+    return 2;
+  
+  Serial.println("AT+CIPSTART=\"TCP\",\"" + _apiHost + "\"," + httpPort);
+  delay(50);      
+  if (!Serial.find("OK")) 
+    return 3;
+  
+  return 0;
+}
+
+
+int receberDadosESP8266(){
+  String httpPacket3 = "GET " + uriRead + " HTTP/1.1\r\nHost: " + _apiHost + "\r\n\r\n";
+  int length3 = httpPacket3.length();
+
+  Serial.print("AT+CIPSEND=");
+  Serial.println(length3);
+  delay(10); 
+
+  Serial.print(httpPacket3);
+  delay(10); 
+
+  while(!Serial.available()) delay(5);	
+  String saida = "";
+  
+  if (Serial.find("\r\n\r\n")){	
+    	delay(5);
+    
+    	unsigned int i = 0; 
+    	
+  		while (!Serial.find("\"field3\":")){} 
+    
+  		while (i<60000) { 
+            if(Serial.available()) {
+                  int c = Serial.read(); 
+                  if (c == ',') 
+                      break; 
+                  if (isDigit(c)) {
+                    saida += (char)c; 
+                  }   
+            }
+      		i++;
+        }
+    }
+  
+     float value= saida.toFloat();
+    int ans=(int)value;
+  return ans;
+}
+
+
+int readIntruder(){
+  String httpPacket3 = "GET " + uriRead + " HTTP/1.1\r\nHost: " + _apiHost + "\r\n\r\n";
+  int length3 = httpPacket3.length();
+
+  Serial.print("AT+CIPSEND=");
+  Serial.println(length3);
+  delay(10); 
+
+  Serial.print(httpPacket3);
+  delay(10); 
+
+  while(!Serial.available()) delay(5);	
+  String saida = "";
+  
+  if (Serial.find("\r\n\r\n")){	
+    	delay(5);
+    
+    	unsigned int i = 0; 
+    	
+  		while (!Serial.find("\"field6\":")){} 
+    
+  		while (i<60000) { 
+            if(Serial.available()) {
+                  int c = Serial.read(); 
+                  if (c == ',') 
+                      break; 
+                  if (isDigit(c)) {
+                    saida += (char)c; 
+                  }   
+            }
+      		i++;
+        }
+    }
+  
+    float value= saida.toFloat();
+    int ans=(int)value;
+  return ans;
+}
+
+
+
+// WRITING VALUESSSSS
+void enviaTemperaturaESP8266() {
+  
+  int temp = map(analogRead(GPIO_SENSOR_TEMP),20,358,-40,125);
+  us = 0.01723 * readUltrasonicDistance(3, 2);
+  prs = analogRead(A1);
+  gs = analogRead(A0);
+  pir = digitalRead(4);
+  buzzer=digitalRead(12);
+  motor=digitalRead(7);
+  
+  
+  
+    
+  //GAS BUZZER
+  if (gs > 150) {
+    tone(12, 294, 10000); // play tone 50 (D4 = 294 Hz)
+  }
+  
+  //Buzzer LED FAN
+  if (pir == HIGH) {
+    digitalWrite(6, HIGH);
+    
+    if (IntruderButton==1) {
+      tone(12, 523, 10000); // play tone 60 (C5 = 523 Hz)
+    }
+  }
+  else if( pir == LOW ){
+    digitalWrite(6, LOW);
+   
+    noTone(12);
+  }
+  //Almirah
+  if (us < 150) {
+    servo_7.write(90);
+  } else {
+    
+   if (prs <= 120 && pir==LOW ) {
+    digitalWrite(9,LOW);
+  } else {
+    digitalWrite(9,HIGH);
+  }
+  
+
+  if(IntruderButton==1)
+  {
+    digitalWrite(13,LOW);
+  }  servo_7.write(0);
+  }
+  
+ //LED PRS
+
+  
+ 
+
+  Serial.println("Temperature");
+  Serial.println(temp);
+  Serial.println("Photoresistor");
+  Serial.println(prs);
+  Serial.println("Ultrasonic");
+  Serial.println(us);
+  Serial.println("Gas Sensor");
+  Serial.println(gs);
+
+  Serial.println("PIR");
+  Serial.println(pir);
+  Serial.println("Buzzer");
+  Serial.println(buzzer);
+  Serial.println("INTRUDER IN WRIGHT FUNCTION");
+  Serial.println(IntruderButton);
+  Serial.println("Motor");
+  Serial.println(motor);
+  
+  
+  
+  // Construindo a requisição, tipo GET com HTTP
+  String httpPacket = "GET " + uriWrite + String(temp) + _apiField2 + String(pir) + _apiField4 + String(motor) + _apiField6 + String(IntruderButton) + _apiField8 + String(gs) +_apiField7 + String(buzzer) +_apiField3 + String(LightButton) + " HTTP/1.1\r\nHost: " + _apiHost + "\r\n\r\n";
+  int length = httpPacket.length();
+  
+  // Enviando tamanho da mensagem por Serial para ESP8266
+  Serial.print("AT+CIPSEND=");
+  Serial.println(length);
+  delay(10);
+  
+  // Enviando requisicao/mensagem para ESP8266
+  Serial.print(httpPacket);
+  delay(10); 
+  if (!Serial.find("SEND OK\r\n")) return;
+}
+
+// LIght Button value reading
+
+
+void setup() {
+  
+  
+  pinMode(A2, INPUT);
+  pinMode(A1, INPUT);
+  pinMode(A0, INPUT);
+  pinMode(11, INPUT);
+  pinMode(4, INPUT);
+  pinMode(6, OUTPUT);
+  pinMode(13, OUTPUT);
+  pinMode(12, OUTPUT);
+  servo_7.attach(7, 500, 2500);
+  setupESP8266();     
+  pinMode(GPIO_LED, OUTPUT);
+  pinMode(GPIO_SENSOR_TEMP, INPUT);
+}
+
+void loop() {
+  
+ 
+  enviaTemperaturaESP8266();
+  	IntruderButton=readIntruder();
+  	Serial.println("Intruder Value");
+  	Serial.println(IntruderButton);
+    LightButton = receberDadosESP8266();
+
+    if(LightButton==1){
+   		Serial.println("ON");
+   		digitalWrite(13, HIGH);
+    }
+  delay(2000);
+    
+  }
