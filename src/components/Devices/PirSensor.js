@@ -20,7 +20,7 @@ function PirSensor() {
   useEffect(() => {
     const Pir = async () => {
       try {
-        const res = await thingSpeakAPI.get(ThingSpeakReadAPI(5));
+        const res = await thingSpeakAPI.get(ThingSpeakReadAPI(2));
         console.log(res.data, 'Pir sensor');
         setState(res?.data);
       } catch (err) {

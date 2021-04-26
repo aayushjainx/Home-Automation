@@ -39,7 +39,7 @@ function Buzzer() {
                 <Box className={`${buzzer && 'circle-ripple'}`}></Box>
               </Grid>
               <Grid item xs={8} md={6} style={{ marginLeft: '3%' }}>
-                <Typography variant='h6'>INTRUDER DETECTED! CALL 911! ASAP!</Typography>
+                <Typography variant='h6'>🚨🚨EMERGENCY ALERT!🚨🚨 </Typography>
               </Grid>
             </Grid>
           </Grid>

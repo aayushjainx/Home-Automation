@@ -11,7 +11,7 @@ function Graphs() {
           <Graphitem title='Temperature' link={GraphsRead(1)} />
         </Grid>
         <Grid item xs={12} md={4}>
-          <Graphitem title='Servo-motor' link={GraphsRead(2)} />
+          <Graphitem title='Pir-Sensor' link={GraphsRead(2)} />
         </Grid>
         <Grid item xs={12} md={4}>
           <Graphitem title='Light-Button' link={GraphsRead(3)} />
