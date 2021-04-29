@@ -50,8 +50,8 @@ exports.verifyAdmin = function (req, res, next) {
 exports.googlePassport = passport.use(
   new GoogleStrategy(
     {
-      clientID: '310640043729-khjka6tqaahf4mruhd9kqi42pce8gdfp.apps.googleusercontent.com',
-      clientSecret: 'Moqwil0zpGIPz6kWxYtTBMuu',
+      clientID: 'GOOGLE_CLIENT_ID',
+      clientSecret: 'GOOOGLE_CLIENT_SECRET',
       callbackURL: 'http://localhost:8000/users/google/callback',
       proxy: true,
     },
