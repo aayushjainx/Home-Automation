@@ -4,16 +4,15 @@ const bodyParser = require('body-parser');
 var User = require('../models/user');
 const passport = require('passport');
 var authenticate = require('../authenticate');
-var cors = require('./cors');
 
 router.use(bodyParser.json());
 
 /* GET users listing. */
-router.options('*', cors.corsWithOptions, (req, res) => {
+router.options('*',  (req, res) => {
   res.sendStatus(200);
 });
 
-router.route('/').get(cors.corsWithOptions, authenticate.verifyUser, (req, res, next) => {
+router.route('/').get( authenticate.verifyUser, (req, res, next) => {
   User.find({})
     .then(
       (users) => {
@@ -26,7 +25,7 @@ router.route('/').get(cors.corsWithOptions, authenticate.verifyUser, (req, res, 
     .catch((err) => next(err));
 });
 
-router.post('/signup', cors.corsWithOptions, (req, res, next) => {
+router.post('/signup', (req, res, next) => {
   User.register(new User({ username: req.body.username }), req.body.password, (err, user) => {
     if (err) {
       res.statusCode = 500;
@@ -55,7 +54,7 @@ router.post('/signup', cors.corsWithOptions, (req, res, next) => {
   });
 });
 
-router.post('/login', cors.corsWithOptions, (req, res, next) => {
+router.post('/login', (req, res, next) => {
   passport.authenticate('local', (err, user, info) => {
     if (err) return next(err);
 
@@ -91,7 +90,7 @@ router.post('/login', cors.corsWithOptions, (req, res, next) => {
   })(req, res, next);
 });
 
-router.get('/logout', cors.corsWithOptions, (req, res, next) => {
+router.get('/logout',  (req, res, next) => {
   if (req.session) {
     req.session.destroy();
     res.clearCookie('session-id');
@@ -103,7 +102,7 @@ router.get('/logout', cors.corsWithOptions, (req, res, next) => {
   }
 });
 
-router.get('/checkJWTtoken', cors.corsWithOptions, (req, res, next) => {
+router.get('/checkJWTtoken',  (req, res, next) => {
   passport.authenticate('jwt', { session: false }, (err, user, info) => {
     if (err) return next(err);
 
@@ -129,13 +128,11 @@ router.get('/checkJWTtoken', cors.corsWithOptions, (req, res, next) => {
 
 router.get(
   '/google',
-  cors.corsWithOptions,
   passport.authenticate('google', { scope: ['email', 'profile'] })
 );
 
 router.get(
   '/google/callback',
-  cors.corsWithOptions,
   passport.authenticate('google', {
     successRedirect: 'http://localhost:3000/home',
     failureRedirect: '/google/failure',
